@@ -12,7 +12,7 @@
       overflow-x: hidden;
     }
 
-    /* Floating hearts container (hidden at start) */
+    /* Floating hearts container */
     .hearts-container {
       position: fixed;
       top: 0;
@@ -33,11 +33,11 @@
 
     @keyframes floatUp {
       0% {
-        transform: translateY(100vh) scale(0.8);
+        transform: translateY(100vh) scale(0.8) rotate(0deg);
         opacity: 0.8;
       }
       100% {
-        transform: translateY(-10vh) scale(1.2);
+        transform: translateY(-10vh) scale(1.2) rotate(360deg);
         opacity: 0;
       }
     }
@@ -50,35 +50,52 @@
       flex-direction: column;
     }
 
-    /* Envelope styling */
+    /* Realistic Envelope */
     .envelope {
       position: relative;
-      width: 400px; /* bigger envelope */
-      height: 260px;
-      background: #fff0f5;
-      border: 4px solid #e75480;
+      width: 350px;
+      height: 230px;
+      background: linear-gradient(to bottom, #fff0f5 0%, #ffe6f0 100%);
+      border: 2px solid #e75480;
+      border-radius: 5px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.25);
       cursor: pointer;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-      overflow: hidden;
       perspective: 1000px;
+      overflow: hidden;
     }
 
+    /* Flap */
     .envelope .flap {
       position: absolute;
       top: 0;
       left: 0;
       width: 0;
       height: 0;
-      border-left: 200px solid transparent;
-      border-right: 200px solid transparent;
-      border-bottom: 130px solid #e75480;
+      border-left: 175px solid transparent;
+      border-right: 175px solid transparent;
+      border-bottom: 115px solid #e75480;
       transform-origin: top;
       transition: transform 1s ease-in-out;
+      box-shadow: inset 0 -5px 5px rgba(0,0,0,0.1);
       z-index: 2;
     }
 
     .envelope.open .flap {
       transform: rotateX(180deg);
+    }
+
+    /* Envelope seal */
+    .envelope::after {
+      content: '';
+      position: absolute;
+      top: 70px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 40px;
+      background: radial-gradient(circle at center, #e75480, #c94f70);
+      border-radius: 50%;
+      z-index: 2;
     }
 
     .label {
@@ -89,7 +106,7 @@
       text-align: center;
     }
 
-    /* Fade-in for letter */
+    /* Letter */
     .letter {
       display: none;
       opacity: 0;
@@ -137,6 +154,31 @@
     audio {
       display: none;
     }
+
+    /* Mobile adjustments */
+    @media (max-width: 400px) {
+      .envelope {
+        width: 280px;
+        height: 180px;
+      }
+      .envelope .flap {
+        border-left: 140px solid transparent;
+        border-right: 140px solid transparent;
+        border-bottom: 90px solid #e75480;
+      }
+      .envelope::after {
+        width: 30px;
+        height: 30px;
+        top: 55px;
+      }
+      .memories img {
+        width: 100px;
+        height: 100px;
+      }
+      .rose {
+        width: 80px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -179,8 +221,8 @@
     <img src="assets/rose.png" alt="Rose" class="rose">
 
     <!-- Song -->
-    <audio id="bgMusic" autoplay loop>
-      <source src="https://www.dropbox.com/scl/fi/1adc4yuqcsxiq41c1hkhe/Daniel-Caesar-Superpowers-Lyrics.mp3?rlkey=yn7iacx6dxom1shwnkt4xd4fk&st=kpysmz0d&dl=1" type="audio/mpeg">
+    <audio id="bgMusic" loop>
+      <source src="https://www.dropbox.com/scl/fi/1adc4yuqcsxiq41c1hkhe/Daniel-Caesar-Superpowers-Lyrics.mp3?raw=1" type="audio/mpeg">
     </audio>
   </div>
 
@@ -189,9 +231,6 @@
       const envelope = document.getElementById("envelope");
       envelope.classList.add("open");
 
-      // start hearts animation
-      createHearts();
-
       setTimeout(() => {
         document.getElementById("envelopePage").style.display = "none";
         const letter = document.getElementById("letterPage");
@@ -199,13 +238,16 @@
 
         // play music when letter shows
         document.getElementById("bgMusic").play();
-      }, 1000); // wait for flap animation
+
+        // start hearts animation
+        createHearts();
+      }, 1000);
     }
 
     function createHearts() {
       const heartsContainer = document.getElementById("hearts");
 
-      for (let i = 0; i < 20; i++) {
+      function spawnHeart() {
         const heart = document.createElement("div");
         heart.classList.add("heart");
         heart.textContent = "💖";
@@ -219,20 +261,11 @@
         }, 7000);
       }
 
-      // repeat hearts every few seconds
-      setInterval(() => {
-        const heart = document.createElement("div");
-        heart.classList.add("heart");
-        heart.textContent = "💕";
-        heart.style.left = Math.random() * 100 + "vw";
-        heart.style.animationDuration = (Math.random() * 4 + 3) + "s";
-        heart.style.fontSize = (Math.random() * 20 + 20) + "px";
-        heartsContainer.appendChild(heart);
+      // spawn initial hearts
+      for (let i = 0; i < 20; i++) spawnHeart();
 
-        setTimeout(() => {
-          heart.remove();
-        }, 7000);
-      }, 1000);
+      // spawn more hearts periodically
+      setInterval(spawnHeart, 1000);
     }
   </script>
 </body>

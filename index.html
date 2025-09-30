@@ -236,8 +236,10 @@
         const letter = document.getElementById("letterPage");
         letter.classList.add("show");
 
-        // play music when letter shows
+       // play music when letter shows
         document.getElementById("bgMusic").play();
+      }, 1000); // wait for flap animation
+    }
 
         // start hearts animation
         createHearts();
@@ -270,4 +272,5 @@
   </script>
 </body>
 </html>
+
 

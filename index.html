@@ -231,14 +231,16 @@
       const envelope = document.getElementById("envelope");
       envelope.classList.add("open");
 
+      // Play music immediately (click event allows autoplay)
+      const music = document.getElementById("bgMusic");
+      music.play().catch(err => console.log("Music playback prevented:", err));
+
+      // Show the letter after flap animation
       setTimeout(() => {
         document.getElementById("envelopePage").style.display = "none";
         const letter = document.getElementById("letterPage");
         letter.classList.add("show");
-
-        // play music when letter shows
-        document.getElementById("bgMusic").play();
-      }, 1000); // wait for flap animation
+      }, 1000);
     }
 
     function createHearts() {

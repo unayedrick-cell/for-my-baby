@@ -236,14 +236,9 @@
         const letter = document.getElementById("letterPage");
         letter.classList.add("show");
 
-       // play music when letter shows
+        // play music when letter shows
         document.getElementById("bgMusic").play();
       }, 1000); // wait for flap animation
-    }
-
-        // start hearts animation
-        createHearts();
-      }, 1000);
     }
 
     function createHearts() {
@@ -269,8 +264,9 @@
       // spawn more hearts periodically
       setInterval(spawnHeart, 1000);
     }
+
+    // start hearts animation
+    createHearts();
   </script>
 </body>
 </html>
-
-

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Anniversary-ish</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background-color: #ffd6e0;
+      overflow-x: hidden;
+    }
+
+    /* Floating hearts container (hidden at start) */
+    .hearts-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .heart {
+      position: absolute;
+      color: #ff5c8d;
+      font-size: 30px;
+      animation: floatUp 6s linear infinite;
+      opacity: 0.8;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(100vh) scale(0.8);
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(-10vh) scale(1.2);
+        opacity: 0;
+      }
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+
+    /* Envelope styling */
+    .envelope {
+      position: relative;
+      width: 400px; /* bigger envelope */
+      height: 260px;
+      background: #fff0f5;
+      border: 4px solid #e75480;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      overflow: hidden;
+      perspective: 1000px;
+    }
+
+    .envelope .flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-left: 200px solid transparent;
+      border-right: 200px solid transparent;
+      border-bottom: 130px solid #e75480;
+      transform-origin: top;
+      transition: transform 1s ease-in-out;
+      z-index: 2;
+    }
+
+    .envelope.open .flap {
+      transform: rotateX(180deg);
+    }
+
+    .label {
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 22px;
+      color: #e75480;
+      text-align: center;
+    }
+
+    /* Fade-in for letter */
+    .letter {
+      display: none;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+      padding: 20px;
+      max-width: 700px;
+      margin: 30px auto;
+      background: #fff0f5;
+      border: 3px solid #e75480;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+
+    .letter.show {
+      display: block;
+      opacity: 1;
+    }
+
+    .letter h1 {
+      color: #e75480;
+    }
+
+    .rose {
+      margin-top: 20px;
+      width: 100px;
+    }
+
+    .memories {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .memories img {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 15px;
+      border: 3px solid #e75480;
+    }
+
+    audio {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- Floating hearts container -->
+  <div class="hearts-container" id="hearts"></div>
+
+  <!-- Envelope page -->
+  <div class="container" id="envelopePage">
+    <div class="envelope" id="envelope" onclick="openLetter()">
+      <div class="flap"></div>
+    </div>
+    <div class="label">Open for a Surprise!</div>
+  </div>
+
+  <!-- Letter page -->
+  <div class="letter" id="letterPage">
+    <h1>Happy Anniversary-ish 💌</h1>
+    <p>
+      Hi Kristine Loveness,<br><br>
+      It's been a year and I just want to start by saying how grateful I am for you. Every time I think about us, I naaalalaq yung moment na sinend mo saqn yung diary mo. Reading it, and realizing how much of yourself you trusted me with, was the time I truly remembered falling in love with you. It felt so real, so raw, and it made me realize na hindi ko na kayang mawala ka sa buhay ko.<br><br>
+
+      And then, fast forward to last year, on this very day, was something I’ll never forget. After everything, we finally talked again, I felt genuinely happy. Like, deep down kind of happy, the type na hindi kayang ma-explain ng basta salita lang. It was as if the universe gave us another chance, and I knew in my heart na tama yung timing.<br><br>
+
+      Love, I’m so thankful that despite the pause, despite the distance, we found our way back. You’ve always been my safe place, my reminder that real love exists. Every conversation, every memory with you feels like home. And I promise you, magkakaroon din tayo ng totoong pics instead of these AI generated ones.<br><br>
+
+      Happy Anniversary-ish to us Love. Anniversary-ish kasi wala naman tayong fixed date for our anniversary and monthsary. But still, I want to share this special day with you padin. I can’t wait to create more memories with you, laugh with you, and just love you more every single day. Kahit makailang away pa tayo, know that my love for you will never wither. I am with you until our hair turns white. I LOVE YOU SO MUCH KRISTINE! Palangga q gd ikaw ❤<br><br>
+
+      Forever yours,<br>
+      AMIR
+    </p>
+
+    <!-- Memories -->
+    <div class="memories">
+      <img src="assets/photo1.jfif" alt="Memory 1">
+      <img src="assets/photo2.jfif" alt="Memory 2">
+      <img src="assets/photo3.jfif" alt="Memory 3">
+    </div>
+
+    <!-- Rose image -->
+    <img src="assets/rose.png" alt="Rose" class="rose">
+
+    <!-- Song -->
+    <audio id="bgMusic" autoplay loop>
+      <source src="https://www.dropbox.com/scl/fi/1adc4yuqcsxiq41c1hkhe/Daniel-Caesar-Superpowers-Lyrics.mp3?rlkey=yn7iacx6dxom1shwnkt4xd4fk&st=kpysmz0d&dl=1" type="audio/mpeg">
+    </audio>
+  </div>
+
+  <script>
+    function openLetter() {
+      const envelope = document.getElementById("envelope");
+      envelope.classList.add("open");
+
+      // start hearts animation
+      createHearts();
+
+      setTimeout(() => {
+        document.getElementById("envelopePage").style.display = "none";
+        const letter = document.getElementById("letterPage");
+        letter.classList.add("show");
+
+        // play music when letter shows
+        document.getElementById("bgMusic").play();
+      }, 1000); // wait for flap animation
+    }
+
+    function createHearts() {
+      const heartsContainer = document.getElementById("hearts");
+
+      for (let i = 0; i < 20; i++) {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.textContent = "💖";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = (Math.random() * 4 + 3) + "s";
+        heart.style.fontSize = (Math.random() * 20 + 20) + "px";
+        heartsContainer.appendChild(heart);
+
+        setTimeout(() => {
+          heart.remove();
+        }, 7000);
+      }
+
+      // repeat hearts every few seconds
+      setInterval(() => {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.textContent = "💕";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = (Math.random() * 4 + 3) + "s";
+        heart.style.fontSize = (Math.random() * 20 + 20) + "px";
+        heartsContainer.appendChild(heart);
+
+        setTimeout(() => {
+          heart.remove();
+        }, 7000);
+      }, 1000);
+    }
+  </script>
+</body>
+</html>
